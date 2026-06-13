@@ -1,0 +1,66 @@
+@{
+    ViewBag.Title = "Thank You";
+}
+
+<style>
+    .thankyou-container {
+        max-width: 420px;
+        margin: 60px auto 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
+        padding: 40px 32px 32px 32px;
+        text-align: center;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        position: relative;
+    }
+    .thankyou-icon {
+        font-size: 3.5rem;
+        color: #27ae60;
+        margin-bottom: 18px;
+        display: block;
+        animation: pop 0.7s cubic-bezier(.23,1.32,.64,1) 1;
+    }
+    @@keyframes pop {
+        0% { transform: scale(0.5); opacity: 0; }
+        80% { transform: scale(1.15); opacity: 1; }
+        100% { transform: scale(1); }
+    }
+    .thankyou-title {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+    .thankyou-message {
+        color: #555;
+        font-size: 1.1rem;
+        margin-bottom: 28px;
+    }
+    .thankyou-btn {
+        display: inline-block;
+        background: #2980b9;
+        color: #fff;
+        padding: 12px 32px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(41,128,185,0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+    .thankyou-btn:hover {
+        background: #1a5a85;
+        box-shadow: 0 4px 16px rgba(41,128,185,0.13);
+    }
+</style>
+
+<div class="thankyou-container">
+    <span class="thankyou-icon">&#10004;</span>
+    <div class="thankyou-title">@ViewBag.Message</div>
+    <div class="thankyou-message">Your feedback has been received.<br>We appreciate your input!</div>
+    <a href="@Url.Action("Index", "Home")" class="thankyou-btn">Return to Home</a>
+</div>

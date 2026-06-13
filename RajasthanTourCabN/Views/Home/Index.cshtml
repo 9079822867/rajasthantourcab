@@ -1,0 +1,174 @@
+﻿@using RajasthanTourCabN.Code.LIBS
+@model List<RajasthanTourCabN.Models.CabPricing>
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    #msgBox .alert {
+        border-radius: 10px;
+        padding: 12px;
+    }
+</style>
+
+@Html.Action("HomePartial", "Home")
+<!-- PRICING TABLE -->
+<section class="price-sec">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="sec-label">Fare List</div>
+            <h2 class="sec-title">Local City Cab Rental Price</h2>
+            <div class="sec-div mx-auto"></div>
+        </div>
+        <select id="city" name="city">
+            <option value="">-- Select City --</option>
+
+            @foreach (var city in (List<string>)ViewBag.Cities)
+            {
+                <option value="@city">@city</option>
+            }
+        </select>
+        <div class="table-responsive">
+            <table class="price-tbl">
+                <thead>
+                    <tr>
+                        <th>Vehicle Type</th>
+                        <th>4 Hrs / 40 Km</th>
+                        <th>8 Hrs / 80 Km</th>
+                        <th>Extra KM</th>
+                        <th>Extra Hour</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tbl">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><strong>@item.VehicleName</strong></td>
+                                <td class="price-amt">₹ @item.Fare4hr.ToString("N0")</td>
+                                <td class="price-amt">₹ @item.Fare8hr.ToString("N0")</td>
+                                <td class="price-amt">₹ @item.ExtraKm /km</td>
+                                <td class="price-amt">₹ @item.ExtraHour /hr</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">No Data Available</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+        <p class="text-center text-muted mt-3" style="font-size:.8rem">
+            * Toll, parking & state taxes extra. Prices subject to change.
+        </p>
+    </div>
+</section>
+<!-- 1. jQuery pehle -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#city").change(function () {
+
+        $.get('/Home/GetPricingByCity', { city: $(this).val() }, function (data) {
+
+            var html = '';
+
+            if (data && data.length > 0) {
+
+                $.each(data, function (i, v) {
+                    html += `<tr>
+                            <td><strong>${v.VehicleName}</strong></td>
+                            <td class="price-amt">₹ ${v.Fare4hr}</td>
+                            <td class="price-amt">₹ ${v.Fare8hr}</td>
+                            <td class="price-amt">₹ ${v.ExtraKm} /km</td>
+                            <td class="price-amt">₹ ${v.ExtraHour} /hr</td>
+                        </tr>`;
+                });
+
+            } else {
+
+                // 👇 No data case
+                html = `<tr>
+                                <td colspan="5" class="text-center">No Data Available</td>
+                            </tr>`;
+            }
+
+            $("#tbl").html(html);
+        });
+
+    });
+
+</script>
+<script>
+function updateWA() {
+
+    var msg = "Cab Booking - KM: " + $("#km").val() +
+              " Total: " + $("#total").text();
+     msg = "Cab Booking : ";
+    var phone = '@SiteKey.PhoneNo';  // Razor value only
+
+    var url = "https://api.whatsapp.com/send/?phone=91"
+              + phone
+              + "&text=" + encodeURIComponent(msg);
+
+    $(".whatsappbooking").attr("href", url);
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    $("#bookingForm").submit(function (e) {
+
+        e.preventDefault();
+
+        $("#btnSubmit").prop("disabled", true).text("Submitting...");
+
+        $.ajax({
+            url: '/Home/SaveBooking',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+
+                if (response.status == true) {
+
+                    $("#msgBox").html(
+                        '<div class="alert alert-success">' +
+                        response.message +
+                        '</div>'
+                    );
+
+                    $("#bookingForm")[0].reset();
+                }
+                else {
+
+                    $("#msgBox").html(
+                        '<div class="alert alert-danger">' +
+                        response.message +
+                        '</div>'
+                    );
+                }
+
+                $("#btnSubmit").prop("disabled", false).text("Book Now");
+            },
+            error: function () {
+
+                $("#msgBox").html(
+                    '<div class="alert alert-danger">' +
+                    'Something went wrong.' +
+                    '</div>'
+                );
+
+                $("#btnSubmit").prop("disabled", false).text("Book Now");
+            }
+        });
+
+    });
+    setTimeout(function () {
+        $("#msgBox").html('');
+    }, 5000);
+</script>

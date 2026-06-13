@@ -1,0 +1,101 @@
+﻿@model RajasthanTourCabN.Models.Page
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Create Page</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="mb-2">
+        <label>Title</label>
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label>Slug (Auto)</label>
+        @Html.TextBoxFor(x => x.Slug, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+
+    <div class="mb-2">
+        <label>Content</label>
+        @Html.TextAreaFor(x => x.Content, new { @class = "form-control", id = "editor" })
+    </div>
+
+    <div class="mb-2">
+        <label>Parent Menu</label>
+        @Html.DropDownListFor(x => x.ParentId,
+            new SelectList(ViewBag.Parents, "Id", "Title"),
+            "No Parent",
+            new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label>Display Order</label>
+        @Html.TextBoxFor(x => x.DisplayOrder, new { @class = "form-control" })
+    </div>
+
+    <!-- SEO -->
+    <div class="mb-2">
+        <label>Meta Title</label>
+        @Html.TextBoxFor(x => x.MetaTitle, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label>Meta Description</label>
+        @Html.TextAreaFor(x => x.MetaDescription, new { @class = "form-control" })
+    </div>
+
+    <div class="mb-2">
+        <label>Active</label>
+        @Html.CheckBoxFor(x => x.IsActive)
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Page</button>
+}
+@*<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>*@
+<script src="https://cdn.ckeditor.com/4.21.0/full/ckeditor.js"></script>
+<script>
+    // Initialize CKEditor
+    CKEDITOR.replace('editor', {
+        height: 400,
+
+        // Enable full HTML (no restriction)
+        allowedContent: true,
+
+        // Toolbar with Source button
+        toolbar: [
+            { name: 'document', items: ['Source'] },
+            { name: 'clipboard', items: ['Undo', 'Redo'] },
+            { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight'] },
+            { name: 'insert', items: ['Image', 'Table', 'Link'] },
+            { name: 'tools', items: ['Maximize'] }
+        ]
+    });
+
+    // Get HTML content
+    function getData() {
+        var data = CKEDITOR.instances.editor.getData();
+        document.getElementById("output").innerHTML = data;
+
+        console.log(data); // for debugging
+    }
+    //let editorInstance;
+    //ClassicEditor
+    //    .create(document.querySelector('#editor'))
+    //    .then(editor => {
+    //        editorInstance = editor; // store instance
+    //    })
+    //    .catch(error => console.error(error));
+</script>
+<script>
+    document.querySelector("#Title").addEventListener("keyup", function () {
+        let slug = this.value.toLowerCase()
+            .replace(/ /g, '-')
+            .replace(/&/g, 'and')
+            .replace(/--+/g, '-');
+
+        document.querySelector("#Slug").value = slug;
+    });
+</script>

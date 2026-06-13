@@ -1,0 +1,115 @@
+@model RajasthanTourCabN.Models.FeedbackViewModel
+@{
+    ViewBag.Title = "Feedback";
+}
+<style>
+    .feedback-form-container {
+        max-width: 400px;
+        margin: 30px auto;
+        padding: 24px 28px 18px 28px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .feedback-form-container h2 {
+        text-align: center;
+        margin-bottom: 18px;
+        color: #2c3e50;
+    }
+    .feedback-form-group {
+        margin-bottom: 18px;
+    }
+    .feedback-form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #34495e;
+    }
+    .feedback-form-group select,
+    .feedback-form-group textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 15px;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+    }
+    .feedback-form-group select:focus,
+    .feedback-form-group textarea:focus {
+        border-color: #2980b9;
+        outline: none;
+    }
+    .feedback-submit-btn {
+        width: 100%;
+        background: #2980b9;
+        color: #fff;
+        border: none;
+        padding: 10px 0;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .feedback-submit-btn:hover {
+        background: #1a5a85;
+    }
+    .feedback-error {
+        color: #c0392b;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .star-rating {
+        direction: rtl;
+        display: inline-flex;
+        font-size: 2rem;
+        gap: 2px;
+    }
+    .star-rating input[type="radio"] {
+        display: none;
+    }
+    .star-rating label {
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+        position: relative;
+    }
+    .star-rating label:before {
+        content: '\2605';
+        position: relative;
+        z-index: 1;
+    }
+    .star-rating input[type="radio"]:checked ~ label:before,
+    .star-rating label:hover:before,
+    .star-rating label:hover ~ label:before {
+        color: #00b5e2;
+    }
+</style>
+<div class="feedback-form-container">
+    <h2>Feedback Form</h2>
+    @using (Html.BeginForm("Feedback", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="feedback-form-group">
+            <label for="Rating">Rating:</label>
+            <div class="star-rating">
+                @for (int i = 5; i >= 1; i--)
+                {
+                    <input type="radio" id="star-@i" name="Rating" value="@i" required @(Model.Rating == i ? "checked=\"checked\"" : "") />
+                    <label for="star-@i" title="@i star" style="font-size: 2em; color: @(Model.Rating >= i ? "#FFD700" : "#ccc"); cursor:pointer;"></label>
+                }
+            </div>
+        </div>
+        <div class="feedback-form-group">
+            <label for="Comments">Comments:</label>
+            @Html.TextAreaFor(m => m.Comments, new { @class = "", rows = 4, cols = 40, required = "required", id = "Comments" })
+        </div>
+        <button type="submit" class="feedback-submit-btn">Submit Feedback</button>
+    }
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="feedback-error">Please fill all required fields.</div>
+    }
+</div>

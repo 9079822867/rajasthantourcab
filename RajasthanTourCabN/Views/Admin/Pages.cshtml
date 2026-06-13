@@ -1,0 +1,52 @@
+﻿@model List<RajasthanTourCabN.Models.Page>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Manage Pages</h2>
+
+<a href="/Admin/Create" class="btn btn-primary">Add New</a>
+
+<table class="table table-bordered mt-3">
+    <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Slug</th>
+        <th>Parent</th>
+        <th>Order</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td>@item.Slug</td>
+            <td>@item.ParentId</td>
+            <td>@item.DisplayOrder</td>
+            <td>
+                <a href="/Admin/Edit/@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                <a href="javascript:void(0);" class="btn btn-danger btn-sm" onclick="confirmDelete(@item.Id)">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Admin/Delete/' + id;
+            }
+        });
+    }
+</script>
+

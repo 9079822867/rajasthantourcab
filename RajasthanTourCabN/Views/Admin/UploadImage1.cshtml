@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Upload Image";
+}
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Upload Image</h2>
+
+<form id="uploadForm" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="fileInput" />
+    <br /><br />
+    <button type="submit">Upload</button>
+</form>
+
+<br />
+
+<div id="preview"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $("#uploadForm").submit(function (e) {
+        e.preventDefault();
+
+        var formData = new FormData();
+        var fileInput = $("#fileInput")[0];
+
+        if (fileInput.files.length === 0) {
+            alert("Please select a file");
+            return;
+        }
+
+        formData.append("file", fileInput.files[0]);
+
+        $.ajax({
+            url: '@Url.Action("UploadImage", "Admin")',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.uploaded === 1) {
+                    $("#preview").html(
+                        "<p>Uploaded:</p><img src='" + res.url + "' width='200' />"
+                    );
+                } else {
+                    alert("Upload failed");
+                }
+            },
+            error: function () {
+                alert("Error uploading file");
+            }
+        });
+    });
+</script>

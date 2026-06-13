@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "BookingList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>BookingList</h2>
+
+@model List<RajasthanTourCabN.Models.BookingInquiryModel>
+
+<input type="text"
+       id="searchBox"
+       class="form-control mb-3"
+       placeholder="Search booking...">
+<div class="container mt-4">
+
+    <h2 class="mb-4">Booking Inquiry List</h2>
+
+    <table class="table table-bordered table-striped">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Pickup</th>
+                <th>Drop</th>
+                <th>Date Time</th>
+                <th>Vehicle</th>
+                <th>Created</th>
+                <th>BookingStatus</th>
+                <th>UpdateStatus</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.BookingId</td>
+
+                    <td>@item.FullName</td>
+
+                    <td>@item.MobileNo</td>
+
+                    <td>@item.PickupLocation</td>
+
+                    <td>@item.DropLocation</td>
+
+                    <td>
+                        @(item.PickupDate.HasValue
+                            ? item.PickupDate.Value.ToString("dd MMM yyyy")
+                            : "")
+                        @(item.PickupTime)
+                    </td>
+
+                    <td>@item.VehicleType</td>
+
+                    <td>@item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</td>
+                    <td>
+                        @if (item.BookingStatus == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">
+                                Pending
+                            </span>
+                        }
+                        else if (item.BookingStatus == "Confirmed")
+                        {
+                            <span class="badge bg-success">
+                                Confirmed
+                            </span>
+                        }
+                        else if (item.BookingStatus == "Completed")
+                        {
+                            <span class="badge bg-primary">
+                                Completed
+                            </span>
+                        }
+                        else if (item.BookingStatus == "Cancelled")
+                        {
+                            <span class="badge bg-danger">
+                                Cancelled
+                            </span>
+                        }
+                    </td>
+                    <td>
+
+                        <select class="form-select statusChange"
+                                data-id="@item.BookingId">
+
+                            <option value="Pending"
+                                    @(item.BookingStatus == "Pending" ? "selected" : "")>
+                                Pending
+                            </option>
+
+                            <option value="Confirmed"
+                                    @(item.BookingStatus == "Confirmed" ? "selected" : "")>
+                                Confirmed
+                            </option>
+
+                            <option value="Completed"
+                                    @(item.BookingStatus == "Completed" ? "selected" : "")>
+                                Completed
+                            </option>
+
+                            <option value="Cancelled"
+                                    @(item.BookingStatus == "Cancelled" ? "selected" : "")>
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </td>
+                    <td>
+
+                        <a href="/Admin/DeleteBooking/@item.BookingId"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this booking?')">
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $("#searchBox").on("keyup", function () {
+
+        var value = $(this).val().toLowerCase();
+
+        $("table tbody tr").filter(function () {
+
+            $(this).toggle(
+                $(this).text().toLowerCase().indexOf(value) > -1
+            );
+
+        });
+
+    });
+        $(".statusChange").change(function () {
+
+    var bookingId = $(this).data("id");
+        var status = $(this).val();
+
+        $.ajax({
+            url: '/Admin/UpdateBookingStatus',
+        type: 'POST',
+        data: {
+            bookingId: bookingId,
+        status: status
+        },
+        success: function (res) {
+
+            if (res.status) {
+            alert("Status updated successfully");
+            }
+        else {
+            alert("Update failed");
+            }
+        }
+    });
+
+});
+</script>

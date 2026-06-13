@@ -1,0 +1,44 @@
+﻿@model RajasthanTourCabN.Models.CabPricing
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label>Vehicle Name</label>
+        @Html.TextBoxFor(x => x.VehicleName, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>4hr Fare</label>
+        @Html.TextBoxFor(x => x.Fare4hr, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>8hr Fare</label>
+        @Html.TextBoxFor(x => x.Fare8hr, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Extra KM</label>
+        @Html.TextBoxFor(x => x.ExtraKm, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Extra Hour</label>
+        @Html.TextBoxFor(x => x.ExtraHour, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Display Order</label>
+        @Html.TextBoxFor(x => x.DisplayOrder, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-success mt-2">Save</button>
+}

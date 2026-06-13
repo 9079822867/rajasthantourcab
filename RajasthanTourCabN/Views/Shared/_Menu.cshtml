@@ -1,0 +1,47 @@
+﻿@model List<RajasthanTourCabN.Models.Page>
+@using RajasthanTourCabN.Code.LIBS
+
+<ul class="navbar-nav ms-auto align-items-xl-center">
+    @foreach (var parent in Model.Where(x => x.ParentId == null && x.DisplayOrder>0))
+    {
+        var childs = Model.Where(x => x.ParentId == parent.Id && x.DisplayOrder > 0).ToList();
+
+        // ✅ IF HAS CHILD (Dropdown)
+        if (childs.Any())
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                    @parent.Title
+                </a>
+
+                <ul class="dropdown-menu">
+                    @foreach (var child in childs)
+                    {
+                        <li>
+                            <a class="dropdown-item" href="/@child.Slug">
+                                <i class="bi bi-chevron-right me-1 text-danger" style="font-size:.7rem"></i>
+                                @child.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        }
+        // ✅ ELSE NORMAL MENU
+        else
+        {
+            <li class="nav-item">
+                <a href="/@parent.Slug" class="nav-link">
+                    @parent.Title
+                </a>
+            </li>
+        }
+    }
+
+    <!-- Call Button -->
+    <li class="nav-item ms-2">
+        <a href="tel:+91(@SiteKey.PhoneNo)" class="btn-red" style="padding:9px 18px;font-size:.78rem">
+            <i class="bi bi-telephone-fill"></i> +91 @SiteKey.PhoneNo
+        </a>
+    </li>
+</ul>

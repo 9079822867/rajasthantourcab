@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!--<style>
+        .hero-slider {
+            width: 100%;
+            overflow: hidden;
+        }
+
+            .hero-slider .slide img {
+                width: 100%;
+                height: 500px; /* desktop height */
+                object-fit: cover;
+                display: block;
+            }
+
+        /* Mobile view */
+        @media (max-width: 768px) {
+            .hero-slider .slide img {
+                height: 220px; /* mobile optimized height */
+            }
+        }
+    </style>-->
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <style>
+        .heroSwiper {
+            width: 100%;
+        }
+
+            .heroSwiper .swiper-slide img {
+                width: 100%;
+                height: 500px; /* desktop height */
+                object-fit: cover; /* prevents stretching */
+                display: block;
+            }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .heroSwiper .swiper-slide img {
+                height: 220px; /* 200–250px recommended */
+            }
+        }
+    </style>
+</head>
+<body>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <style type="text/css">
+        /* Hero Section */
+        .contactus-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 350px;
+            background: url('https://i.pinimg.com/1200x/89/55/b1/8955b1a0fadd27feef634ca37bed9beb.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+            .contactus-hero::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to bottom right, rgba(11, 59, 145, 0.75), rgba(224, 59, 121, 0.75));
+            }
+
+        .contactus-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .contactus-hero h1 {
+            font-family: "Cinzel Decorative", serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .contactus-hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Contact Form Section */
+        .contactus-form-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f9faff 0%, #ffffff 100%);
+        }
+
+        .contactus-form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .contactus-form-container::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                background: linear-gradient(90deg, #0b3b91 0%, #e03b79 100%);
+            }
+
+        .contactus-form-title {
+            font-family: "Cinzel Decorative", serif;
+            font-size: 2.5rem;
+            color: #0b3b91;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .contactus-form-subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .contactus-form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .contactus-form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+            .contactus-form-label i {
+                color: #e03b79;
+                font-size: 1rem;
+            }
+
+        .contactus-form-input,
+        .contactus-form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-family: "Poppins", sans-serif;
+        }
+
+            .contactus-form-input:focus,
+            .contactus-form-textarea:focus {
+                outline: none;
+                border-color: #e03b79;
+                box-shadow: 0 0 0 4px rgba(224, 59, 121, 0.1);
+                background: #ffffff;
+            }
+
+        .contactus-form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contactus-form-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0b3b91 0%, #e03b79 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(224, 59, 121, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .contactus-form-submit::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                transition: left 0.5s;
+            }
+
+            .contactus-form-submit:hover::before {
+                left: 100%;
+            }
+
+            .contactus-form-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(224, 59, 121, 0.4);
+            }
+
+            .contactus-form-submit:active {
+                transform: translateY(0);
+            }
+
+        /* Contact Info Section */
+        .contactus-info-section {
+            padding: 60px 0;
+            background: #ffffff;
+        }
+
+        .contactus-info-card {
+            background: linear-gradient(135deg, #f9faff 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 35px;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+            .contactus-info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 30px rgba(224, 59, 121, 0.15);
+                border-color: #e03b79;
+            }
+
+        .contactus-info-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0b3b91 0%, #e03b79 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(224, 59, 121, 0.3);
+        }
+
+        .contactus-info-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0b3b91;
+            margin-bottom: 12px;
+        }
+
+        .contactus-info-text {
+            color: #e03b79;
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .contactus-info-link {
+            color: #e03b79;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .contactus-info-link:hover {
+                color: #0b3b91;
+            }
+
+        /* Map Section */
+        .contactus-map-section {
+            padding: 0;
+            background: #f9faff;
+        }
+
+        .contactus-map-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contactus-map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%);
+            transition: filter 0.3s ease;
+        }
+
+        .contactus-map-container:hover .contactus-map-iframe {
+            filter: grayscale(0%);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contactus-hero {
+                height: 50vh;
+                min-height: 300px;
+            }
+
+                .contactus-hero h1 {
+                    font-size: 2rem;
+                }
+
+                .contactus-hero p {
+                    font-size: 1rem;
+                }
+
+            .contactus-form-section {
+                padding: 50px 0;
+            }
+
+            .contactus-form-container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .contactus-form-title {
+                font-size: 2rem;
+            }
+
+            .contactus-form-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .contactus-info-section {
+                padding: 40px 0;
+            }
+
+            .contactus-info-card {
+                padding: 25px;
+                margin-bottom: 20px;
+            }
+
+            .contactus-map-container {
+                height: 400px;
+            }
+        }
+    </style>
+    <section class="contactus-hero">
+        <div class="contactus-hero-content">
+            <h1>Get In Touch With Us</h1>
+
+            <p>We&#39;re here to help you plan your perfect Rajasthan adventure</p>
+        </div>
+    </section>
+
+    <section class="contactus-form-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="contactus-form-container">
+                        <h2 class="contactus-form-title">Send Us a Message</h2>
+
+                        <p class="contactus-form-subtitle">Fill out the form below and we&#39;ll get back to you as soon as possible</p>
+
+                        <form class="popup_form" id="bookingForm">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="contactus-form-group">
+                                        <label class="contactus-form-label" for="contactus-fullname"><i class="fas fa-user"></i><span>Full Name</span></label> <input type="text" class="contactus-form-input" name="FullName" placeholder="Enter your full name" required="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="contactus-form-group">
+                                        <label class="contactus-form-label" for="contactus-email">
+                                            <i class="fas fa-envelope"></i> <span>Email Address</span>
+                                        </label><input type="email" class="contactus-form-input" id="EmailId" name="EmailId" placeholder="your.email@example.com" required="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="contactus-form-group">
+                                        <label class="contactus-form-label" for="contactus-phone">
+                                            <i class="fas fa-phone"></i> <span>Phone Number</span>
+                                        </label> <input type="tel" class="contactus-form-input" id="MobileNo" name="MobileNo" placeholder="+91 98765 43210" required="">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="contactus-form-group">
+                                        <label class="contactus-form-label" for="contactus-message">
+                                            <i class="fas fa-comment-alt"></i> <span>Message</span>
+                                        </label><textarea class="contactus-form-textarea" name="Message" placeholder="Tell us about your travel plans, questions, or any special requirements..." required=""></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12"><button class="contactus-form-submit" id="btnSubmit" type="submit"><i class="fas fa-paper-plane me-2"></i>Send Message</button></div>
+
+                                <div class="col-md-12 mt-3">
+                                    <div id="msgBox"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contactus-info-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="contactus-info-card">
+                        <div class="contactus-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+
+                        <h4 class="contactus-info-title">Our Location</h4>
+
+                        <p class="contactus-info-text">SHOP NO 9, OPP S.B.I BANK MURLIPURA SCHEME JAIPUR India</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="contactus-info-card">
+                        <div class="contactus-info-icon"><i class="fas fa-phone"></i></div>
+
+                        <h4 class="contactus-info-title">Call Us</h4>
+
+                        <p class="contactus-info-text"><a class="contactus-info-link" href="tel:+917688864868">+91 7688864868</a></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="contactus-info-card">
+                        <div class="contactus-info-icon"><i class="fas fa-envelope"></i></div>
+
+                        <h4 class="contactus-info-title">Email Us</h4>
+
+                        <p class="contactus-info-text"><a class="contactus-info-link" href="mailto:info.rajasthantourcab@gmail.com">info.rajasthantourcab@gmail.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contactus-map-section">
+        <div class="container-fluid p-0">
+            <div class="contactus-map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3555.785381128893!2d75.76529219999999!3d26.973695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db259ef7c3fe9%3A0x1bc56bc364077504!2sSBI%20Branch%20Murlipura!5e0!3m2!1sen!2sin!4v1778405447010!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#bookingForm").submit(function (e) {
+
+            e.preventDefault();
+
+            $("#btnSubmit").prop("disabled", true).text("Submitting...");
+
+            $.ajax({
+                url: '/Home/SaveBooking',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+
+                    if (response.status == true) {
+
+                        $("#msgBox").html(
+                            '<div class="alert alert-success">' +
+                            response.message +
+                            '</div>'
+                        );
+
+                        $("#bookingForm")[0].reset();
+                    }
+                    else {
+
+                        $("#msgBox").html(
+                            '<div class="alert alert-danger">' +
+                            response.message +
+                            '</div>'
+                        );
+                    }
+
+                    $("#btnSubmit").prop("disabled", false).text("Book Now");
+                },
+                error: function () {
+
+                    $("#msgBox").html(
+                        '<div class="alert alert-danger">' +
+                        'Something went wrong.' +
+                        '</div>'
+                    );
+
+                    $("#btnSubmit").prop("disabled", false).text("Book Now");
+                }
+            });
+
+        });
+        setTimeout(function () {
+            $("#msgBox").html('');
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "ImageList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>ImageList</h2>
+<ul>
+    @foreach (var img in ViewBag.ImageFiles as List<string>)
+    {
+        <li>
+            <img src="~/Uploads/@img" alt="Cab Image" style="width:150px;height:auto;" />
+        </li>
+        <li>Path : "~/Uploads/@img"</li>
+        <br />
+    }
+</ul>

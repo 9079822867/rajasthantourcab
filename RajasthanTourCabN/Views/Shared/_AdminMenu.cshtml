@@ -1,0 +1,12 @@
+﻿@model List<RajasthanTourCabN.Models.AdminMenu>
+
+<ul class="nav flex-column">
+    @foreach (var item in Model)
+    {
+        <li class="nav-item">
+            <a href="@item.Url" class="nav-link text-white">
+                <i class="bi @item.Icon"></i> @item.Title
+            </a>
+        </li>
+    }
+</ul>
