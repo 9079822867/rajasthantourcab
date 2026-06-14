@@ -97,10 +97,26 @@
     .hd-info .price-card .pbox .plabel { font-size:.8rem; opacity:.9; }
     .hd-info .price-card .pbox .pamt { font-size:1.9rem; font-weight:800; line-height:1.15; }
     .hd-info .price-card .pbox .pamt small { font-size:.75rem; font-weight:500; opacity:.85; display:block; }
+    .hd-info .stats-band { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; background:#fff;
+                           border:1px solid #eef1f6; border-radius:14px; padding:22px;
+                           box-shadow:0 6px 20px rgba(20,40,80,.05); }
+    .hd-info .stats-band .stat { text-align:center; }
+    .hd-info .stats-band .snum { font-size:1.5rem; font-weight:800; color:#0d6efd; }
+    .hd-info .stats-band .slbl { font-size:.82rem; color:#6b7890; font-weight:600; }
+    .hd-info .tgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .hd-info .tcard { background:#fff; border:1px solid #eef1f6; border-radius:14px; padding:20px;
+                      box-shadow:0 6px 20px rgba(20,40,80,.05); }
+    .hd-info .tcard .stars { color:#f5a623; margin-bottom:8px; }
+    .hd-info .tcard p { font-style:italic; color:#41506a; font-size:.88rem; margin:0 0 12px; }
+    .hd-info .tcard .who { font-weight:700; color:#1b2330; font-size:.85rem; }
+    .hd-info .cta .cta-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .hd-info .cta a.btn-wa { display:inline-block; background:#25d366; color:#fff; border-radius:10px;
+                             padding:12px 26px; font-weight:700; text-decoration:none; }
     @@media (max-width:768px) {
         .hd-info .grid-4, .hd-info .grid-3 { grid-template-columns:1fr 1fr; }
-        .hd-info .grid-2 { grid-template-columns:1fr; }
+        .hd-info .grid-2, .hd-info .tgrid { grid-template-columns:1fr; }
         .hd-info .price-card .row3 { grid-template-columns:1fr; }
+        .hd-info .stats-band { grid-template-columns:1fr 1fr; }
     }
 </style>
 
