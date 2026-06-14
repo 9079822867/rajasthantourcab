@@ -85,6 +85,10 @@ namespace RajasthanTourCabN.Models
         public string DropLocation { get; set; }
         public string DropoffDate { get; set; }
         public string DropoffTime { get; set; }
+        public string CarBrand { get; set; }
+        public string CarModel { get; set; }
+        public string CarType { get; set; }        // Hatchback / Sedan / SUV / Luxury
+        public string Transmission { get; set; }    // Manual / Automatic
         public string FullName { get; set; }
         public string MobileNo { get; set; }
         public string EmailId { get; set; }

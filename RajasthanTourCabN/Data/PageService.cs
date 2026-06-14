@@ -417,6 +417,10 @@ namespace RajasthanTourCabN.Data
                 DropLocation,
                 DropoffDate,
                 DropoffTime,
+                CarBrand,
+                CarModel,
+                CarType,
+                Transmission,
                 FullName,
                 MobileNo,
                 EmailId,
@@ -431,6 +435,10 @@ namespace RajasthanTourCabN.Data
                 @DropLocation,
                 @DropoffDate,
                 @DropoffTime,
+                @CarBrand,
+                @CarModel,
+                @CarType,
+                @Transmission,
                 @FullName,
                 @MobileNo,
                 @EmailId,'Pending'
@@ -443,6 +451,10 @@ namespace RajasthanTourCabN.Data
                 cmd.Parameters.AddWithValue("@DropLocation", model.DropLocation ?? "");
                 cmd.Parameters.AddWithValue("@DropoffDate", model.DropoffDate ?? "");
                 cmd.Parameters.AddWithValue("@DropoffTime", model.DropoffTime ?? "");
+                cmd.Parameters.AddWithValue("@CarBrand", model.CarBrand ?? "");
+                cmd.Parameters.AddWithValue("@CarModel", model.CarModel ?? "");
+                cmd.Parameters.AddWithValue("@CarType", model.CarType ?? "");
+                cmd.Parameters.AddWithValue("@Transmission", model.Transmission ?? "");
                 cmd.Parameters.AddWithValue("@FullName", model.FullName ?? "");
                 cmd.Parameters.AddWithValue("@MobileNo", model.MobileNo ?? "");
                 cmd.Parameters.AddWithValue("@EmailId", model.EmailId ?? "");
@@ -470,6 +482,10 @@ namespace RajasthanTourCabN.Data
                     DropLocation = row["DropLocation"].ToString(),
                     DropoffDate = row["DropoffDate"].ToString(),
                     DropoffTime = row["DropoffTime"].ToString(),
+                    CarBrand = row.Table.Columns.Contains("CarBrand") ? row["CarBrand"].ToString() : "",
+                    CarModel = row.Table.Columns.Contains("CarModel") ? row["CarModel"].ToString() : "",
+                    CarType = row.Table.Columns.Contains("CarType") ? row["CarType"].ToString() : "",
+                    Transmission = row.Table.Columns.Contains("Transmission") ? row["Transmission"].ToString() : "",
                     FullName = row["FullName"].ToString(),
                     MobileNo = row["MobileNo"].ToString(),
                     EmailId = row["EmailId"].ToString(),

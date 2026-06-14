@@ -7,20 +7,30 @@
 
 <style>
     .hd-wrap { background:#f5f7fb; padding:48px 0 64px; }
-    .hd-head { text-align:center; margin-bottom:26px; }
+    .hd-head { text-align:center; margin-bottom:20px; }
     .hd-head h1 { font-weight:700; font-size:1.7rem; color:#111; margin-bottom:8px; }
     .hd-head p { color:#5b6b85; margin:0; font-size:.95rem; }
     .hd-head p b { color:#0d6efd; font-weight:600; }
     .hd-card { max-width:460px; margin:0 auto; background:#fff; border-radius:16px;
                box-shadow:0 10px 40px rgba(20,40,80,.10); padding:26px 24px; }
+    .hd-steps { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:20px; }
+    .hd-steps .st { display:flex; align-items:center; gap:8px; }
+    .hd-steps .dot { width:26px; height:26px; border-radius:50%; background:#e1e7f0; color:#5b6b85;
+                     display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; }
+    .hd-steps .st.active .dot { background:#0d6efd; color:#fff; }
+    .hd-steps .st .lbl { font-size:.78rem; color:#5b6b85; font-weight:600; }
+    .hd-steps .st.active .lbl { color:#0d6efd; }
+    .hd-steps .bar { width:34px; height:2px; background:#e1e7f0; }
     .hd-label { font-weight:600; font-size:.82rem; color:#1b2330; margin:0 0 8px; }
     .hd-label .opt { color:#8a96a8; font-weight:400; }
-    .trip-toggle { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
-    .trip-toggle input { display:none; }
-    .trip-toggle label { display:flex; align-items:center; justify-content:center; gap:8px;
+    .hd-label .req { color:#e03131; }
+    .trip-toggle, .pill-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px; }
+    .trip-toggle input, .pill-grid input { display:none; }
+    .trip-toggle label, .pill-grid label { display:flex; align-items:center; justify-content:center; gap:8px;
                          border:1px solid #d7deea; border-radius:10px; padding:12px; cursor:pointer;
-                         font-weight:600; font-size:.9rem; color:#1b2330; transition:.15s; }
-    .trip-toggle input:checked + label { background:#111; color:#fff; border-color:#111; }
+                         font-weight:600; font-size:.9rem; color:#1b2330; transition:.15s; text-align:center; }
+    .trip-toggle input:checked + label,
+    .pill-grid input:checked + label { background:#111; color:#fff; border-color:#111; }
     .hd-field { margin-bottom:16px; }
     .hd-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
     .hd-input, .hd-select { width:100%; border:1px solid #e1e7f0; background:#f7f9fc; border-radius:10px;
@@ -34,72 +44,137 @@
     .hd-swap { text-align:center; margin:6px 0; }
     .hd-swap button { border:1px solid #e1e7f0; background:#fff; width:40px; height:40px; border-radius:50%;
                       color:#1b2330; cursor:pointer; }
-    .hd-btn { width:100%; border:0; border-radius:12px; padding:14px; font-weight:700; font-size:.95rem;
+    .hd-actions { display:flex; gap:12px; }
+    .hd-btn { flex:1; border:0; border-radius:12px; padding:14px; font-weight:700; font-size:.95rem;
               color:#fff; background:#0d6efd; cursor:pointer; transition:.15s; }
     .hd-btn:hover { background:#0b5ed7; }
     .hd-btn:disabled { background:#aeb8c7; cursor:not-allowed; }
+    .hd-btn.ghost { background:#fff; color:#1b2330; border:1px solid #d7deea; flex:0 0 110px; }
+    .hd-btn.ghost:hover { background:#f3f5f9; }
     #hdMsg .alert { border-radius:10px; padding:12px; margin-bottom:14px; }
+    .hd-err { color:#e03131; font-size:.8rem; margin:-8px 0 12px; display:none; }
+    .step-panel { display:none; }
+    .step-panel.active { display:block; }
     .hd-info { max-width:460px; margin:30px auto 0; color:#5b6b85; font-size:.9rem; line-height:1.7; }
 </style>
 
 <div class="hd-wrap">
     <div class="container">
-        <div class="hd-head">
+        <div class="hd-head" id="hdHead">
             <h1>Find a driver for your car</h1>
             <p>Book a professional <b>driver</b> for your in city/outstation trip</p>
         </div>
 
         <div class="hd-card">
+            <div class="hd-steps">
+                <div class="st active" id="stepTab1"><span class="dot">1</span><span class="lbl">Trip</span></div>
+                <div class="bar"></div>
+                <div class="st" id="stepTab2"><span class="dot">2</span><span class="lbl">Car Details</span></div>
+            </div>
+
             <div id="hdMsg"></div>
+
             <form id="driverForm">
-                <div class="hd-label">Trip Type</div>
-                <div class="trip-toggle">
-                    <input type="radio" id="tt-oneway" name="TripType" value="One Way" checked />
-                    <label for="tt-oneway"><i class="bi bi-arrow-right"></i> One Way</label>
-                    <input type="radio" id="tt-round" name="TripType" value="Round Trip" />
-                    <label for="tt-round"><i class="bi bi-arrow-repeat"></i> Round Trip</label>
-                </div>
+                <!-- ============ STEP 1: TRIP ============ -->
+                <div class="step-panel active" id="step1">
+                    <div class="hd-label">Trip Type</div>
+                    <div class="trip-toggle">
+                        <input type="radio" id="tt-oneway" name="TripType" value="One Way" checked />
+                        <label for="tt-oneway"><i class="bi bi-arrow-right"></i> One Way</label>
+                        <input type="radio" id="tt-round" name="TripType" value="Round Trip" />
+                        <label for="tt-round"><i class="bi bi-arrow-repeat"></i> Round Trip</label>
+                    </div>
 
-                <div class="hd-field">
-                    <div class="hd-label">Pickup Date &amp; Time <span class="opt">(optional)</span></div>
-                    <div class="hd-grid2">
-                        <input type="date" class="hd-input" name="PickupDate" />
-                        <input type="time" class="hd-input" name="PickupTime" />
+                    <div class="hd-field">
+                        <div class="hd-label">Pickup Date &amp; Time <span class="opt">(optional)</span></div>
+                        <div class="hd-grid2">
+                            <input type="date" class="hd-input" name="PickupDate" />
+                            <input type="time" class="hd-input" name="PickupTime" />
+                        </div>
+                    </div>
+
+                    <div class="hd-field hd-loc">
+                        <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
+                        <input type="text" class="hd-input" id="pickupLoc" name="PickupLocation" placeholder="Where from?" autocomplete="off" />
+                    </div>
+
+                    <div class="hd-swap">
+                        <button type="button" id="swapBtn" title="Swap locations"><i class="bi bi-arrow-down-up"></i></button>
+                    </div>
+
+                    <div class="hd-field hd-loc">
+                        <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
+                        <input type="text" class="hd-input" id="dropLoc" name="DropLocation" placeholder="Where to?" autocomplete="off" />
+                    </div>
+
+                    <div class="hd-field">
+                        <div class="hd-label">Dropoff Date &amp; Time <span class="opt">(optional)</span></div>
+                        <div class="hd-grid2">
+                            <input type="date" class="hd-input" name="DropoffDate" />
+                            <input type="time" class="hd-input" name="DropoffTime" />
+                        </div>
+                    </div>
+
+                    <div class="hd-err" id="err1">Please enter both pickup and drop locations.</div>
+
+                    <div class="hd-actions">
+                        <button type="button" class="hd-btn" id="toStep2">Save &amp; Continue</button>
                     </div>
                 </div>
 
-                <div class="hd-field hd-loc">
-                    <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
-                    <input type="text" class="hd-input" id="pickupLoc" name="PickupLocation" placeholder="Where from?" autocomplete="off" />
-                </div>
+                <!-- ============ STEP 2: CAR DETAILS ============ -->
+                <div class="step-panel" id="step2">
+                    <div class="hd-head" style="margin-bottom:18px">
+                        <h1 style="font-size:1.35rem">Car Details</h1>
+                        <p>Update your car information or add new details</p>
+                    </div>
 
-                <div class="hd-swap">
-                    <button type="button" id="swapBtn" title="Swap locations"><i class="bi bi-arrow-down-up"></i></button>
-                </div>
+                    <div class="hd-field">
+                        <div class="hd-label">Car Brand <span class="req">*</span></div>
+                        <input type="text" class="hd-input" name="CarBrand" id="carBrand" placeholder="e.g., Maruti Suzuki, Hyundai, BMW" />
+                    </div>
 
-                <div class="hd-field hd-loc">
-                    <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
-                    <input type="text" class="hd-input" id="dropLoc" name="DropLocation" placeholder="Where to?" autocomplete="off" />
-                </div>
+                    <div class="hd-field">
+                        <div class="hd-label">Car Model <span class="req">*</span></div>
+                        <input type="text" class="hd-input" name="CarModel" id="carModel" placeholder="e.g., Swift, City, Innova" />
+                    </div>
 
-                <div class="hd-field" id="dropoffWrap">
-                    <div class="hd-label">Dropoff Date &amp; Time <span class="opt">(optional)</span></div>
-                    <div class="hd-grid2">
-                        <input type="date" class="hd-input" name="DropoffDate" />
-                        <input type="time" class="hd-input" name="DropoffTime" />
+                    <div class="hd-label">Car Type <span class="req">*</span></div>
+                    <div class="pill-grid">
+                        <input type="radio" id="ct-hatch" name="CarType" value="Hatchback" />
+                        <label for="ct-hatch">Hatchback</label>
+                        <input type="radio" id="ct-sedan" name="CarType" value="Sedan" />
+                        <label for="ct-sedan">Sedan</label>
+                        <input type="radio" id="ct-suv" name="CarType" value="SUV" />
+                        <label for="ct-suv">SUV</label>
+                        <input type="radio" id="ct-luxury" name="CarType" value="Luxury" />
+                        <label for="ct-luxury">Luxury</label>
+                    </div>
+
+                    <div class="hd-label">Transmission <span class="req">*</span></div>
+                    <div class="pill-grid">
+                        <input type="radio" id="tr-manual" name="Transmission" value="Manual" />
+                        <label for="tr-manual">Manual</label>
+                        <input type="radio" id="tr-auto" name="Transmission" value="Automatic" />
+                        <label for="tr-auto">Automatic</label>
+                    </div>
+
+                    <div class="hd-field">
+                        <div class="hd-label">Your Details</div>
+                        <input type="text" class="hd-input" name="FullName" placeholder="Full name" style="margin-bottom:12px" />
+                        <div class="hd-grid2">
+                            <input type="tel" class="hd-input" name="MobileNo" placeholder="Mobile number *" maxlength="15" />
+                            <input type="email" class="hd-input" name="EmailId" placeholder="Email (optional)" />
+                        </div>
+                    </div>
+
+                    <div class="hd-err" id="err2">Please fill car brand, model, type, transmission and mobile number.</div>
+
+                    <div class="hd-actions">
+                        <button type="button" class="hd-btn ghost" id="backStep1">Back</button>
+                        <button type="submit" class="hd-btn" id="hdSubmit">Book a Driver</button>
                     </div>
                 </div>
-
-                <div class="hd-field">
-                    <div class="hd-label">Your Details</div>
-                    <input type="text" class="hd-input" name="FullName" placeholder="Full name" style="margin-bottom:12px" />
-                    <div class="hd-grid2">
-                        <input type="tel" class="hd-input" name="MobileNo" placeholder="Mobile number *" maxlength="15" />
-                        <input type="email" class="hd-input" name="EmailId" placeholder="Email (optional)" />
-                    </div>
-                </div>
-
-                <button type="submit" class="hd-btn" id="hdSubmit">Book a Driver</button>
             </form>
         </div>
 
@@ -113,28 +188,50 @@
 @section scripts {
 <script>
     (function () {
-        // Round trip => show dropoff date/time prominently (already visible; just a hook)
+        function show(step) {
+            $("#step1, #step2").removeClass("active");
+            $("#step" + step).addClass("active");
+            $("#stepTab1").toggleClass("active", step === 1);
+            $("#stepTab2").toggleClass("active", step === 2);
+            $("#hdHead").toggle(step === 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Swap pickup / drop
-        document.getElementById('swapBtn').addEventListener('click', function () {
-            var a = document.getElementById('pickupLoc');
-            var b = document.getElementById('dropLoc');
-            var t = a.value; a.value = b.value; b.value = t;
+        $("#swapBtn").on("click", function () {
+            var a = $("#pickupLoc").val();
+            $("#pickupLoc").val($("#dropLoc").val());
+            $("#dropLoc").val(a);
         });
 
-        // Optional: try to prefill pickup with browser geolocation. Never blocks the form.
+        // Step 1 -> Step 2 (require both locations)
+        $("#toStep2").on("click", function () {
+            var ok = $("#pickupLoc").val().trim() && $("#dropLoc").val().trim();
+            $("#err1").toggle(!ok);
+            if (ok) show(2);
+        });
+
+        $("#backStep1").on("click", function () { show(1); });
+
+        // Optional geolocation prefill, never blocks
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (pos) {
-                var p = document.getElementById('pickupLoc');
-                if (!p.value) {
-                    p.value = pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5);
-                }
-            }, function () { /* denied/failed: ignore, manual entry still works */ });
+                var p = $("#pickupLoc");
+                if (!p.val()) { p.val(pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5)); }
+            }, function () { /* denied: manual entry still works */ });
         }
 
         $("#driverForm").submit(function (e) {
             e.preventDefault();
-            $("#hdSubmit").prop("disabled", true).text("Submitting...");
 
+            var ok = $("#carBrand").val().trim() && $("#carModel").val().trim()
+                     && $("input[name='CarType']:checked").length
+                     && $("input[name='Transmission']:checked").length
+                     && $("input[name='MobileNo']").val().trim();
+            if (!ok) { $("#err2").show(); return; }
+            $("#err2").hide();
+
+            $("#hdSubmit").prop("disabled", true).text("Submitting...");
             $.ajax({
                 url: '/Home/SaveDriverBooking',
                 type: 'POST',
@@ -142,7 +239,7 @@
                 success: function (response) {
                     var cls = response.status ? 'alert-success' : 'alert-danger';
                     $("#hdMsg").html('<div class="alert ' + cls + '">' + response.message + '</div>');
-                    if (response.status) { $("#driverForm")[0].reset(); }
+                    if (response.status) { $("#driverForm")[0].reset(); show(1); }
                     $("#hdSubmit").prop("disabled", false).text("Book a Driver");
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 },
