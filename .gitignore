@@ -24,3 +24,7 @@ packages/
 # Logs / temp
 *.log
 *.tmp
+
+# Scratch / one-off helper files (commit messages, ad-hoc SQL)
+/_*.txt
+/_*.sql
