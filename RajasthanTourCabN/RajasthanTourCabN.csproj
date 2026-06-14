@@ -218,6 +218,9 @@
     <Content Include="Views\Admin\ImageList.cshtml" />
     <Content Include="Views\Admin\BookingList.cshtml" />
     <Content Include="Views\Admin\DriverBookingList.cshtml" />
+    <Content Include="Views\Admin\DriverFares.cshtml" />
+    <Content Include="Views\Admin\DriverFareCreate.cshtml" />
+    <Content Include="Views\Admin\DriverFareEdit.cshtml" />
     <Content Include="Views\Home\Feedback.cshtml" />
     <Content Include="Views\Home\ThankYou.cshtml" />
     <Content Include="Views\Admin\AdminFeedback.cshtml" />

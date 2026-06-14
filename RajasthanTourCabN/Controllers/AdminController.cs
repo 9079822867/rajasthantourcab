@@ -213,6 +213,54 @@ namespace RajasthanTourCabN.Controllers
             }
         }
 
+        // ===== Driver Fares management =====
+        public ActionResult DriverFares()
+        {
+            return View(service.GetDriverFares());
+        }
+
+        public ActionResult DriverFareCreate()
+        {
+            return View(new DriverFare { Category = "Hourly" });
+        }
+
+        [HttpPost]
+        public ActionResult DriverFareCreate(DriverFare model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Duration))
+            {
+                ModelState.AddModelError("", "Duration is required");
+                return View(model);
+            }
+            service.InsertDriverFare(model);
+            return RedirectToAction("DriverFares");
+        }
+
+        public ActionResult DriverFareEdit(int id)
+        {
+            var fare = service.GetDriverFareById(id);
+            if (fare == null) return HttpNotFound();
+            return View(fare);
+        }
+
+        [HttpPost]
+        public ActionResult DriverFareEdit(DriverFare model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Duration))
+            {
+                ModelState.AddModelError("", "Duration is required");
+                return View(model);
+            }
+            service.UpdateDriverFare(model);
+            return RedirectToAction("DriverFares");
+        }
+
+        public ActionResult DriverFareDelete(int id)
+        {
+            service.DeleteDriverFare(id);
+            return RedirectToAction("DriverFares");
+        }
+
         public ActionResult AdminFeedback()
         {
             var feedbackList = service.GetAllFeedback();

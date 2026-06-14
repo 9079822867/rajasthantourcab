@@ -619,6 +619,75 @@ namespace RajasthanTourCabN.Data
             return list;
         }
 
+        public DriverFare GetDriverFareById(int id)
+        {
+            DriverFare obj = null;
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT Id, Category, Duration, Fare, DisplayOrder FROM DriverFare WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        obj = new DriverFare
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Category = dr["Category"].ToString(),
+                            Duration = dr["Duration"].ToString(),
+                            Fare = Convert.ToDecimal(dr["Fare"]),
+                            DisplayOrder = Convert.ToInt32(dr["DisplayOrder"])
+                        };
+                    }
+                }
+            }
+            return obj;
+        }
+
+        public void InsertDriverFare(DriverFare model)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(@"INSERT INTO DriverFare (Category, Duration, Fare, DisplayOrder, IsActive)
+                    VALUES (@Category, @Duration, @Fare, @DisplayOrder, 1)", con);
+                cmd.Parameters.AddWithValue("@Category", model.Category ?? "Hourly");
+                cmd.Parameters.AddWithValue("@Duration", model.Duration ?? "");
+                cmd.Parameters.AddWithValue("@Fare", model.Fare);
+                cmd.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void UpdateDriverFare(DriverFare model)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(@"UPDATE DriverFare SET
+                    Category=@Category, Duration=@Duration, Fare=@Fare, DisplayOrder=@DisplayOrder
+                    WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Id", model.Id);
+                cmd.Parameters.AddWithValue("@Category", model.Category ?? "Hourly");
+                cmd.Parameters.AddWithValue("@Duration", model.Duration ?? "");
+                cmd.Parameters.AddWithValue("@Fare", model.Fare);
+                cmd.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteDriverFare(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE DriverFare SET IsActive=0 WHERE Id=@Id", con);
+                cmd.Parameters.AddWithValue("@Id", id);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public void InsertFeedback(Feedback model)
         {
             string query = @"INSERT INTO Feedback (Rating, Comments, SubmittedOn) VALUES (@Rating, @Comments, @SubmittedOn)";

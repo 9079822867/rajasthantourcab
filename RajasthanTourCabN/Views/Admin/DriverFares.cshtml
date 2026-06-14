@@ -1,0 +1,49 @@
+@model List<RajasthanTourCabN.Models.DriverFare>
+@{
+    ViewBag.Title = "Driver Fares";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid mt-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Driver Fares</h2>
+        <a href="/Admin/DriverFareCreate" class="btn btn-success btn-sm"><i class="bi bi-plus"></i> Add Fare</a>
+    </div>
+
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Category</th>
+                <th>Duration</th>
+                <th>Fare (₹)</th>
+                <th>Order</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model == null || Model.Count == 0)
+            {
+                <tr><td colspan="6" class="text-center">No fares yet.</td></tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Category</td>
+                        <td>@item.Duration</td>
+                        <td>@item.Fare.ToString("N2")</td>
+                        <td>@item.DisplayOrder</td>
+                        <td>
+                            <a href="/Admin/DriverFareEdit/@item.Id" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="/Admin/DriverFareDelete/@item.Id" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this fare?')">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
