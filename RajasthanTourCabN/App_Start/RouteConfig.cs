@@ -20,6 +20,21 @@ namespace RajasthanTourCabN
                 defaults: new { controller = "Admin", action = "Dashboard", id = UrlParameter.Optional }
             );
 
+            // ✅ ACCOUNT ROUTE (login) — must be before the slug route, otherwise
+            //    "/Account" is captured by {slug} and 404s as a missing page
+            routes.MapRoute(
+                name: "Account",
+                url: "Account/{action}/{id}",
+                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
+            );
+
+            // ✅ CABPRICE ROUTE — same reason as Account
+            routes.MapRoute(
+                name: "CabPrice",
+                url: "CabPrice/{action}/{id}",
+                defaults: new { controller = "CabPrice", action = "Dashboard", id = UrlParameter.Optional }
+            );
+
             // ✅ SLUG ROUTE
             routes.MapRoute(
                 name: "Slug",
