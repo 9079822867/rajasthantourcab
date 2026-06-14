@@ -102,6 +102,15 @@ namespace RajasthanTourCabN.Models
         public DateTime CreatedDate { get; set; }
     }
 
+    public class DriverFare
+    {
+        public int Id { get; set; }
+        public string Category { get; set; }    // Hourly / Daily
+        public string Duration { get; set; }
+        public decimal Fare { get; set; }
+        public int DisplayOrder { get; set; }
+    }
+
     public class Feedback
     {
         public int Id { get; set; }

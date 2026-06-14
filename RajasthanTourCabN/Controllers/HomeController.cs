@@ -90,6 +90,11 @@ namespace RajasthanTourCabN.Controllers
             {
                 return View("HireDriver", page);
             }
+            if (slug == "driver-fares")
+            {
+                ViewBag.Fares = service.GetDriverFares();
+                return View("DriverFares", page);
+            }
             return View(page);
         }
         public string GenerateSlug(string text)

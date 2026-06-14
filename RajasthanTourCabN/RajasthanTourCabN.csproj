@@ -209,6 +209,7 @@
     <Content Include="Views\Home\Gallery.cshtml" />
     <Content Include="Views\Home\Page.cshtml" />
     <Content Include="Views\Home\HireDriver.cshtml" />
+    <Content Include="Views\Home\DriverFares.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_AdminMenu.cshtml" />
     <Content Include="Views\Shared\_FooterPartial.cshtml" />

@@ -601,6 +601,24 @@ namespace RajasthanTourCabN.Data
 
             return list;
         }
+        public List<DriverFare> GetDriverFares()
+        {
+            DataTable dt = db.GetData("SELECT Id, Category, Duration, Fare, DisplayOrder FROM DriverFare WHERE IsActive=1 ORDER BY DisplayOrder");
+            List<DriverFare> list = new List<DriverFare>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new DriverFare
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    Category = row["Category"].ToString(),
+                    Duration = row["Duration"].ToString(),
+                    Fare = Convert.ToDecimal(row["Fare"]),
+                    DisplayOrder = Convert.ToInt32(row["DisplayOrder"])
+                });
+            }
+            return list;
+        }
+
         public void InsertFeedback(Feedback model)
         {
             string query = @"INSERT INTO Feedback (Rating, Comments, SubmittedOn) VALUES (@Rating, @Comments, @SubmittedOn)";
