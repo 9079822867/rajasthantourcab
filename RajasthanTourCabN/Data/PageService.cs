@@ -397,6 +397,84 @@ namespace RajasthanTourCabN.Data
                 con.Close();
             }
         }
+        public void SaveDriverBooking(DriverBooking model)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO DriverBooking
+            (
+                TripType,
+                PickupDate,
+                PickupTime,
+                PickupLocation,
+                DropLocation,
+                DropoffDate,
+                DropoffTime,
+                FullName,
+                MobileNo,
+                EmailId,
+                BookingStatus
+            )
+            VALUES
+            (
+                @TripType,
+                @PickupDate,
+                @PickupTime,
+                @PickupLocation,
+                @DropLocation,
+                @DropoffDate,
+                @DropoffTime,
+                @FullName,
+                @MobileNo,
+                @EmailId,'Pending'
+            )", con);
+
+                cmd.Parameters.AddWithValue("@TripType", model.TripType ?? "");
+                cmd.Parameters.AddWithValue("@PickupDate", model.PickupDate ?? "");
+                cmd.Parameters.AddWithValue("@PickupTime", model.PickupTime ?? "");
+                cmd.Parameters.AddWithValue("@PickupLocation", model.PickupLocation ?? "");
+                cmd.Parameters.AddWithValue("@DropLocation", model.DropLocation ?? "");
+                cmd.Parameters.AddWithValue("@DropoffDate", model.DropoffDate ?? "");
+                cmd.Parameters.AddWithValue("@DropoffTime", model.DropoffTime ?? "");
+                cmd.Parameters.AddWithValue("@FullName", model.FullName ?? "");
+                cmd.Parameters.AddWithValue("@MobileNo", model.MobileNo ?? "");
+                cmd.Parameters.AddWithValue("@EmailId", model.EmailId ?? "");
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+
+        public List<DriverBooking> GetDriverBookings()
+        {
+            DataTable dt = db.GetData("SELECT * FROM DriverBooking WHERE IsDeleted=0 ORDER BY Id DESC");
+            List<DriverBooking> list = new List<DriverBooking>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new DriverBooking
+                {
+                    Id = Convert.ToInt32(row["Id"]),
+                    TripType = row["TripType"].ToString(),
+                    PickupDate = row["PickupDate"].ToString(),
+                    PickupTime = row["PickupTime"].ToString(),
+                    PickupLocation = row["PickupLocation"].ToString(),
+                    DropLocation = row["DropLocation"].ToString(),
+                    DropoffDate = row["DropoffDate"].ToString(),
+                    DropoffTime = row["DropoffTime"].ToString(),
+                    FullName = row["FullName"].ToString(),
+                    MobileNo = row["MobileNo"].ToString(),
+                    EmailId = row["EmailId"].ToString(),
+                    BookingStatus = row["BookingStatus"].ToString(),
+                    CreatedDate = Convert.ToDateTime(row["CreatedDate"])
+                });
+            }
+
+            return list;
+        }
+
         public void UpdateBookingInquiryStatus(int bookingId, string status)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))

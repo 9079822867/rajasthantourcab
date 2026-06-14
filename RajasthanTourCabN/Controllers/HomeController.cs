@@ -85,6 +85,10 @@ namespace RajasthanTourCabN.Controllers
                 ViewBag.Cities = service.GetCabPricing().Select(x => x.City).Distinct().ToList();
                 return View("index", data);
             }
+            if (slug == "hire-driver-in-india")
+            {
+                return View("HireDriver", page);
+            }
             return View(page);
         }
         public string GenerateSlug(string text)
@@ -127,6 +131,44 @@ namespace RajasthanTourCabN.Controllers
             service.SaveBooking(model);
             return RedirectToAction("Index");
         }
+        public ActionResult HireDriver()
+        {
+            var page = service.GetPages().FirstOrDefault(x => x.Slug.ToLower() == "hire-driver-in-india");
+            if (page != null)
+            {
+                ViewBag.Title = !string.IsNullOrEmpty(page.MetaTitle) ? page.MetaTitle : page.Title;
+                ViewBag.MetaDescription = page.MetaDescription;
+            }
+            return View(page);
+        }
+
+        [HttpPost]
+        public JsonResult SaveDriverBooking(DriverBooking model)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(model.MobileNo))
+                {
+                    return Json(new { status = false, message = "Please enter your mobile number." });
+                }
+                if (string.IsNullOrWhiteSpace(model.PickupLocation) || string.IsNullOrWhiteSpace(model.DropLocation))
+                {
+                    return Json(new { status = false, message = "Please enter both pickup and drop locations." });
+                }
+
+                service.SaveDriverBooking(model);
+                return Json(new
+                {
+                    status = true,
+                    message = "Driver booking request submitted successfully. We will call you shortly."
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { status = false, message = ex.Message });
+            }
+        }
+
         [HttpPost]
         public JsonResult SaveBooking(BookingInquiryModel model)
         {

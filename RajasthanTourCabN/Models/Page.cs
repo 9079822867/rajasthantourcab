@@ -74,6 +74,23 @@ namespace RajasthanTourCabN.Models
         public DateTime CreatedDate { get; set; }
     }
 
+    public class DriverBooking
+    {
+        public int Id { get; set; }
+        public string TripType { get; set; }        // OneWay / RoundTrip
+        public string PickupDate { get; set; }
+        public string PickupTime { get; set; }
+        public string PickupLocation { get; set; }
+        public string DropLocation { get; set; }
+        public string DropoffDate { get; set; }
+        public string DropoffTime { get; set; }
+        public string FullName { get; set; }
+        public string MobileNo { get; set; }
+        public string EmailId { get; set; }
+        public string BookingStatus { get; set; } = "Pending";
+        public DateTime CreatedDate { get; set; }
+    }
+
     public class Feedback
     {
         public int Id { get; set; }
