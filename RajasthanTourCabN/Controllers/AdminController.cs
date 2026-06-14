@@ -169,6 +169,36 @@ namespace RajasthanTourCabN.Controllers
             list=service.GetBookingInquirys();
             return View(list);
         }
+        public ActionResult DriverBookingList()
+        {
+            if (Session["Admin"] == null)
+            {
+                return RedirectToAction("index", "Account");
+            }
+            var list = service.GetDriverBookings();
+            return View(list);
+        }
+
+        public ActionResult DeleteDriverBooking(int id)
+        {
+            service.DeleteDriverBooking(id);
+            return RedirectToAction("DriverBookingList");
+        }
+
+        [HttpPost]
+        public JsonResult UpdateDriverBookingStatus(int id, string status)
+        {
+            try
+            {
+                service.UpdateDriverBookingStatus(id, status);
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
+        }
+
         public ActionResult AdminFeedback()
         {
             var feedbackList = service.GetAllFeedback();

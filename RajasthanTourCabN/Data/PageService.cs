@@ -497,6 +497,35 @@ namespace RajasthanTourCabN.Data
             return list;
         }
 
+        public void UpdateDriverBookingStatus(int id, string status)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "UPDATE DriverBooking SET BookingStatus=@Status WHERE Id=@Id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void DeleteDriverBooking(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "UPDATE DriverBooking SET IsDeleted=1 WHERE Id=@Id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void UpdateBookingInquiryStatus(int bookingId, string status)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))

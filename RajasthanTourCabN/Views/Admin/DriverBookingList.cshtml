@@ -1,0 +1,122 @@
+@model List<RajasthanTourCabN.Models.DriverBooking>
+@{
+    ViewBag.Title = "Driver Bookings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid mt-2">
+    <h2 class="mb-3">Driver Booking Requests</h2>
+
+    <input type="text" id="searchBox" class="form-control mb-3" placeholder="Search driver booking...">
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                    <th>Trip</th>
+                    <th>Pickup</th>
+                    <th>Drop</th>
+                    <th>Pickup Date/Time</th>
+                    <th>Dropoff Date/Time</th>
+                    <th>Car</th>
+                    <th>Type</th>
+                    <th>Transmission</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || Model.Count == 0)
+                {
+                    <tr><td colspan="16" class="text-center">No driver bookings yet.</td></tr>
+                }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FullName</td>
+                            <td>@item.MobileNo</td>
+                            <td>@item.EmailId</td>
+                            <td>@item.TripType</td>
+                            <td>@item.PickupLocation</td>
+                            <td>@item.DropLocation</td>
+                            <td>@item.PickupDate @item.PickupTime</td>
+                            <td>@item.DropoffDate @item.DropoffTime</td>
+                            <td>@item.CarBrand @item.CarModel</td>
+                            <td>@item.CarType</td>
+                            <td>@item.Transmission</td>
+                            <td>@item.CreatedDate.ToString("dd MMM yyyy hh:mm tt")</td>
+                            <td>
+                                @if (item.BookingStatus == "Pending")
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                                else if (item.BookingStatus == "Confirmed")
+                                {
+                                    <span class="badge bg-success">Confirmed</span>
+                                }
+                                else if (item.BookingStatus == "Completed")
+                                {
+                                    <span class="badge bg-primary">Completed</span>
+                                }
+                                else if (item.BookingStatus == "Cancelled")
+                                {
+                                    <span class="badge bg-danger">Cancelled</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@item.BookingStatus</span>
+                                }
+                            </td>
+                            <td>
+                                <select class="form-select form-select-sm statusChange" data-id="@item.Id">
+                                    <option value="Pending" @(item.BookingStatus == "Pending" ? "selected" : "")>Pending</option>
+                                    <option value="Confirmed" @(item.BookingStatus == "Confirmed" ? "selected" : "")>Confirmed</option>
+                                    <option value="Completed" @(item.BookingStatus == "Completed" ? "selected" : "")>Completed</option>
+                                    <option value="Cancelled" @(item.BookingStatus == "Cancelled" ? "selected" : "")>Cancelled</option>
+                                </select>
+                            </td>
+                            <td>
+                                <a href="/Admin/DeleteDriverBooking/@item.Id"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Delete this driver booking?')">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#searchBox").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("table tbody tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+
+    $(".statusChange").change(function () {
+        var id = $(this).data("id");
+        var status = $(this).val();
+        $.ajax({
+            url: '/Admin/UpdateDriverBookingStatus',
+            type: 'POST',
+            data: { id: id, status: status },
+            success: function (res) {
+                alert(res.status ? "Status updated successfully" : "Update failed");
+            },
+            error: function () { alert("Update failed"); }
+        });
+    });
+</script>
