@@ -3,7 +3,4 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/Content/Theme/style1.css" rel="stylesheet" />
-<link href="~/Content/Theme/StyleSheet1.css" rel="stylesheet" />
-<div id="Subheader"><div class="container"><span class="title">@Model.Title</span></div></div>
 @Html.Raw(HttpUtility.HtmlDecode(Model.Content))

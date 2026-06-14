@@ -1,0 +1,45 @@
+@using RajasthanTourCabN.Code.LIBS
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = ViewBag.Title ?? "Page Not Found";
+}
+
+<style>
+    .nf-wrap { background:#f5f7fb; padding:70px 0 90px; text-align:center; }
+    .nf-code { font-size:6rem; font-weight:800; line-height:1; color:#0d6efd; letter-spacing:2px; }
+    .nf-title { font-weight:700; font-size:1.6rem; color:#111; margin:10px 0 6px; }
+    .nf-text { color:#5b6b85; max-width:540px; margin:0 auto 26px; font-size:.98rem; }
+    .nf-links { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+    .nf-links a { display:inline-block; border-radius:10px; padding:12px 24px; font-weight:700;
+                  text-decoration:none; font-size:.9rem; }
+    .nf-links a.primary { background:#0d6efd; color:#fff; }
+    .nf-links a.primary:hover { background:#0b5ed7; }
+    .nf-links a.ghost { background:#fff; color:#1b2330; border:1px solid #d7deea; }
+    .nf-links a.ghost:hover { background:#f3f5f9; }
+    .nf-quick { margin-top:30px; color:#7a879c; font-size:.85rem; }
+    .nf-quick a { color:#0d6efd; text-decoration:none; margin:0 8px; }
+</style>
+
+<div class="nf-wrap">
+    <div class="container">
+        <div class="nf-code">404</div>
+        <div class="nf-title">Oops! Page not found</div>
+        <p class="nf-text">
+            The page you are looking for might have been removed, had its name changed,
+            or is temporarily unavailable. Let&rsquo;s get you back on track.
+        </p>
+        <div class="nf-links">
+            <a class="primary" href="/"><i class="bi bi-house-door-fill"></i> Back to Home</a>
+            <a class="ghost" href="/hire-driver-in-india"><i class="bi bi-person-badge"></i> Hire a Driver</a>
+            <a class="ghost" href="@("tel:+91"+SiteKey.PhoneNo)"><i class="bi bi-telephone-fill"></i> Call Us</a>
+        </div>
+        <div class="nf-quick">
+            Popular:
+            <a href="/about-us">About Us</a> ·
+            <a href="/tour-packages">Tour Packages</a> ·
+            <a href="/taxi-service">Taxi Service</a> ·
+            <a href="/contact-us">Contact Us</a> ·
+            <a href="/gallery">Gallery</a>
+        </div>
+    </div>
+</div>

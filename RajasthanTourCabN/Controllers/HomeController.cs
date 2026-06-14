@@ -73,10 +73,17 @@ namespace RajasthanTourCabN.Controllers
                 slug = "home";
             else if (Convert.ToString(slug).ToLower() == "home")
                 slug = "home";
+
+            // tolerate links that mistakenly include a .cshtml/.html extension
+            if (slug.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
+                slug = slug.Substring(0, slug.Length - ".cshtml".Length);
+            else if (slug.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+                slug = slug.Substring(0, slug.Length - ".html".Length);
+
             var page = service.GetPages().FirstOrDefault(x => x.Slug.ToLower() == slug.ToLower());
 
             if (page == null)
-                return HttpNotFound();
+                return Error404();
             ViewBag.Title = !string.IsNullOrEmpty(page.MetaTitle) ? page.MetaTitle : page.Title;
             ViewBag.MetaDescription = page.MetaDescription;
             ViewBag.MetaKeywords = page.MetaKeywords;
@@ -104,6 +111,14 @@ namespace RajasthanTourCabN.Controllers
                        .Replace("&", "and")
                        .Replace("--", "-");
         }
+        public ActionResult Error404()
+        {
+            Response.StatusCode = 404;
+            Response.TrySkipIisCustomErrors = true;
+            ViewBag.Title = "Page Not Found";
+            return View("NotFound");
+        }
+
         public ActionResult About()
         {
 
