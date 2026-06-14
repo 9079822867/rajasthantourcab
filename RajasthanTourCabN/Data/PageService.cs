@@ -35,7 +35,10 @@ namespace RajasthanTourCabN.Data
                     Content = row["Content"].ToString(),
                     ParentId = row["ParentId"] == DBNull.Value ? (int?)null : Convert.ToInt32(row["ParentId"]),
                     IsActive = Convert.ToBoolean(row["IsActive"]),
-                    DisplayOrder = Convert.ToInt32(row["DisplayOrder"])
+                    DisplayOrder = Convert.ToInt32(row["DisplayOrder"]),
+                    MetaTitle = row.Table.Columns.Contains("MetaTitle") ? row["MetaTitle"].ToString() : "",
+                    MetaDescription = row.Table.Columns.Contains("MetaDescription") ? row["MetaDescription"].ToString() : "",
+                    MetaKeywords = row.Table.Columns.Contains("MetaKeywords") ? row["MetaKeywords"].ToString() : ""
                 });
             }
 
@@ -46,8 +49,8 @@ namespace RajasthanTourCabN.Data
 
         public void InsertPage(Page model)
         {
-            string query = @"INSERT INTO Pages (Title,Slug,Content,ParentId,IsActive,DisplayOrder,MetaTitle,MetaDescription)
-                            VALUES (@Title,@Slug,@Content,@ParentId,@IsActive,@DisplayOrder,@MetaTitle,@MetaDescription)";
+            string query = @"INSERT INTO Pages (Title,Slug,Content,ParentId,IsActive,DisplayOrder,MetaTitle,MetaDescription,MetaKeywords)
+                            VALUES (@Title,@Slug,@Content,@ParentId,@IsActive,@DisplayOrder,@MetaTitle,@MetaDescription,@MetaKeywords)";
 
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -61,6 +64,7 @@ namespace RajasthanTourCabN.Data
                     cmd.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
                     cmd.Parameters.AddWithValue("@MetaTitle", model.MetaTitle ?? "");
                     cmd.Parameters.AddWithValue("@MetaDescription", model.MetaDescription ?? "");
+                    cmd.Parameters.AddWithValue("@MetaKeywords", model.MetaKeywords ?? "");
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -78,7 +82,8 @@ namespace RajasthanTourCabN.Data
         IsActive=@IsActive,
         DisplayOrder=@DisplayOrder,
         MetaTitle=@MetaTitle,
-        MetaDescription=@MetaDescription
+        MetaDescription=@MetaDescription,
+        MetaKeywords=@MetaKeywords
         WHERE Id=@Id";
 
             using (SqlConnection con = new SqlConnection(_connectionString))
@@ -94,6 +99,7 @@ namespace RajasthanTourCabN.Data
                     cmd.Parameters.AddWithValue("@DisplayOrder", model.DisplayOrder);
                     cmd.Parameters.AddWithValue("@MetaTitle", model.MetaTitle ?? "");
                     cmd.Parameters.AddWithValue("@MetaDescription", model.MetaDescription ?? "");
+                    cmd.Parameters.AddWithValue("@MetaKeywords", model.MetaKeywords ?? "");
 
                     con.Open();
                     cmd.ExecuteNonQuery();

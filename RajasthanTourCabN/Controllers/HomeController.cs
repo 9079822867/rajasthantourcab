@@ -79,6 +79,7 @@ namespace RajasthanTourCabN.Controllers
                 return HttpNotFound();
             ViewBag.Title = !string.IsNullOrEmpty(page.MetaTitle) ? page.MetaTitle : page.Title;
             ViewBag.MetaDescription = page.MetaDescription;
+            ViewBag.MetaKeywords = page.MetaKeywords;
             if(slug=="home")
             {
                 var data = service.GetCabPricing().Where(x => x.City == "Jaipur").ToList();
@@ -138,6 +139,7 @@ namespace RajasthanTourCabN.Controllers
             {
                 ViewBag.Title = !string.IsNullOrEmpty(page.MetaTitle) ? page.MetaTitle : page.Title;
                 ViewBag.MetaDescription = page.MetaDescription;
+                ViewBag.MetaKeywords = page.MetaKeywords;
             }
             return View(page);
         }

@@ -1,0 +1,14 @@
+Add dynamic per-page meta keywords (and fix meta title/description binding)
+
+- Page model: MetaKeywords property
+- PageService.GetPages now maps MetaTitle/MetaDescription/MetaKeywords
+  (previously unmapped, so meta description was always empty on content
+  pages); Insert/UpdatePage persist MetaKeywords
+- HomeController: set ViewBag.MetaKeywords in Page() and HireDriver()
+- _Layout: render <meta name="keywords"> dynamically
+- Admin Create/Edit: Meta Keywords input field
+
+DB (applied to TOURDB): added MetaKeywords column to Pages and seeded
+keywords for home, hire-driver and key service pages.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>

@@ -46,6 +46,11 @@
     </div>
 
     <div class="mb-2">
+        <label>Meta Keywords</label>
+        @Html.TextBoxFor(x => x.MetaKeywords, new { @class = "form-control", placeholder = "comma, separated, keywords" })
+    </div>
+
+    <div class="mb-2">
         <label>Active</label>
         @Html.CheckBoxFor(x => x.IsActive)
     </div>
