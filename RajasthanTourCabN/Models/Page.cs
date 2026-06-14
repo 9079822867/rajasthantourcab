@@ -96,6 +96,8 @@ namespace RajasthanTourCabN.Models
         public string FullName { get; set; }
         public string MobileNo { get; set; }
         public string EmailId { get; set; }
+        public string DriverName { get; set; }      // assigned driver (set by admin)
+        public string DriverMobile { get; set; }    // assigned driver mobile (set by admin)
         public string BookingStatus { get; set; } = "Pending";
         public DateTime CreatedDate { get; set; }
     }

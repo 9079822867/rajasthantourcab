@@ -505,6 +505,8 @@ namespace RajasthanTourCabN.Data
                     FullName = row["FullName"].ToString(),
                     MobileNo = row["MobileNo"].ToString(),
                     EmailId = row["EmailId"].ToString(),
+                    DriverName = row.Table.Columns.Contains("DriverName") ? row["DriverName"].ToString() : "",
+                    DriverMobile = row.Table.Columns.Contains("DriverMobile") ? row["DriverMobile"].ToString() : "",
                     BookingStatus = row["BookingStatus"].ToString(),
                     CreatedDate = Convert.ToDateTime(row["CreatedDate"])
                 });
@@ -522,6 +524,22 @@ namespace RajasthanTourCabN.Data
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.Parameters.AddWithValue("@Status", status);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void UpdateDriverAssignment(int id, string driverName, string driverMobile)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string query = "UPDATE DriverBooking SET DriverName=@DriverName, DriverMobile=@DriverMobile WHERE Id=@Id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@DriverName", driverName ?? "");
+                    cmd.Parameters.AddWithValue("@DriverMobile", driverMobile ?? "");
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }

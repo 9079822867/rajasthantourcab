@@ -199,6 +199,20 @@ namespace RajasthanTourCabN.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult AssignDriver(int id, string driverName, string driverMobile)
+        {
+            try
+            {
+                service.UpdateDriverAssignment(id, driverName, driverMobile);
+                return Json(new { status = true });
+            }
+            catch
+            {
+                return Json(new { status = false });
+            }
+        }
+
         public ActionResult AdminFeedback()
         {
             var feedbackList = service.GetAllFeedback();

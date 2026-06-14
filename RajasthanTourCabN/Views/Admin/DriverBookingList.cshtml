@@ -28,13 +28,14 @@
                     <th>Created</th>
                     <th>Status</th>
                     <th>Update</th>
+                    <th>Assign Driver</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model == null || Model.Count == 0)
                 {
-                    <tr><td colspan="16" class="text-center">No driver bookings yet.</td></tr>
+                    <tr><td colspan="17" class="text-center">No driver bookings yet.</td></tr>
                 }
                 else
                 {
@@ -96,6 +97,13 @@
                                     <option value="Cancelled" @(item.BookingStatus == "Cancelled" ? "selected" : "")>Cancelled</option>
                                 </select>
                             </td>
+                            <td style="min-width:170px">
+                                <input type="text" class="form-control form-control-sm mb-1 drvName"
+                                       data-id="@item.Id" value="@item.DriverName" placeholder="Driver name" />
+                                <input type="text" class="form-control form-control-sm mb-1 drvMobile"
+                                       data-id="@item.Id" value="@item.DriverMobile" placeholder="Driver mobile" />
+                                <button class="btn btn-primary btn-sm assignBtn" data-id="@item.Id">Save Driver</button>
+                            </td>
                             <td>
                                 <a href="/Admin/DeleteDriverBooking/@item.Id"
                                    class="btn btn-danger btn-sm"
@@ -127,6 +135,21 @@
             data: { id: id, status: status },
             success: function (res) {
                 alert(res.status ? "Status updated successfully" : "Update failed");
+            },
+            error: function () { alert("Update failed"); }
+        });
+    });
+
+    $(".assignBtn").click(function () {
+        var id = $(this).data("id");
+        var name = $(".drvName[data-id='" + id + "']").val();
+        var mobile = $(".drvMobile[data-id='" + id + "']").val();
+        $.ajax({
+            url: '/Admin/AssignDriver',
+            type: 'POST',
+            data: { id: id, driverName: name, driverMobile: mobile },
+            success: function (res) {
+                alert(res.status ? "Driver assigned successfully" : "Update failed");
             },
             error: function () { alert("Update failed"); }
         });
