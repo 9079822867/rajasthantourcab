@@ -83,9 +83,19 @@
     .hd-info .cta p { color:#c7d0e0; margin-bottom:16px; }
     .hd-info .cta a.btn-call { display:inline-block; background:#0d6efd; color:#fff; border-radius:10px;
                                padding:12px 26px; font-weight:700; text-decoration:none; }
+    .hd-info .price-card { max-width:520px; margin:0 auto; background:linear-gradient(135deg,#0d6efd,#0b3ea8);
+                           color:#fff; border-radius:18px; padding:30px 26px; text-align:center;
+                           box-shadow:0 12px 30px rgba(13,110,253,.25); }
+    .hd-info .price-card .from { font-size:.85rem; opacity:.85; }
+    .hd-info .price-card .amt { font-size:2.4rem; font-weight:800; line-height:1.1; margin:4px 0; }
+    .hd-info .price-card .amt small { font-size:.9rem; font-weight:500; opacity:.85; }
+    .hd-info .price-card .row3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:20px; }
+    .hd-info .price-card .row3 div { background:rgba(255,255,255,.12); border-radius:10px; padding:12px 8px;
+                                     font-size:.78rem; font-weight:600; }
     @@media (max-width:768px) {
         .hd-info .grid-4, .hd-info .grid-3 { grid-template-columns:1fr 1fr; }
         .hd-info .grid-2 { grid-template-columns:1fr; }
+        .hd-info .price-card .row3 { grid-template-columns:1fr; }
     }
 </style>
 
