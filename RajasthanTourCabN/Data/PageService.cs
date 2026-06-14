@@ -415,6 +415,10 @@ namespace RajasthanTourCabN.Data
                 PickupTime,
                 PickupLocation,
                 DropLocation,
+                PickupLat,
+                PickupLng,
+                DropLat,
+                DropLng,
                 DropoffDate,
                 DropoffTime,
                 CarBrand,
@@ -433,6 +437,10 @@ namespace RajasthanTourCabN.Data
                 @PickupTime,
                 @PickupLocation,
                 @DropLocation,
+                @PickupLat,
+                @PickupLng,
+                @DropLat,
+                @DropLng,
                 @DropoffDate,
                 @DropoffTime,
                 @CarBrand,
@@ -449,6 +457,10 @@ namespace RajasthanTourCabN.Data
                 cmd.Parameters.AddWithValue("@PickupTime", model.PickupTime ?? "");
                 cmd.Parameters.AddWithValue("@PickupLocation", model.PickupLocation ?? "");
                 cmd.Parameters.AddWithValue("@DropLocation", model.DropLocation ?? "");
+                cmd.Parameters.AddWithValue("@PickupLat", model.PickupLat ?? "");
+                cmd.Parameters.AddWithValue("@PickupLng", model.PickupLng ?? "");
+                cmd.Parameters.AddWithValue("@DropLat", model.DropLat ?? "");
+                cmd.Parameters.AddWithValue("@DropLng", model.DropLng ?? "");
                 cmd.Parameters.AddWithValue("@DropoffDate", model.DropoffDate ?? "");
                 cmd.Parameters.AddWithValue("@DropoffTime", model.DropoffTime ?? "");
                 cmd.Parameters.AddWithValue("@CarBrand", model.CarBrand ?? "");
@@ -480,6 +492,10 @@ namespace RajasthanTourCabN.Data
                     PickupTime = row["PickupTime"].ToString(),
                     PickupLocation = row["PickupLocation"].ToString(),
                     DropLocation = row["DropLocation"].ToString(),
+                    PickupLat = row.Table.Columns.Contains("PickupLat") ? row["PickupLat"].ToString() : "",
+                    PickupLng = row.Table.Columns.Contains("PickupLng") ? row["PickupLng"].ToString() : "",
+                    DropLat = row.Table.Columns.Contains("DropLat") ? row["DropLat"].ToString() : "",
+                    DropLng = row.Table.Columns.Contains("DropLng") ? row["DropLng"].ToString() : "",
                     DropoffDate = row["DropoffDate"].ToString(),
                     DropoffTime = row["DropoffTime"].ToString(),
                     CarBrand = row.Table.Columns.Contains("CarBrand") ? row["CarBrand"].ToString() : "",

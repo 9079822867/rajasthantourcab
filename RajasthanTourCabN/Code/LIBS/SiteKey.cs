@@ -29,6 +29,10 @@ namespace RajasthanTourCabN.Code.LIBS
         {
             get { return ConfigurationManager.AppSettings["EmailID"]; }
         }
+        public static string GoogleMapsApiKey
+        {
+            get { return ConfigurationManager.AppSettings["GoogleMapsApiKey"]; }
+        }
         public static string Colorcode
         {
             get { return ConfigurationManager.AppSettings["ColorCode"]; }

@@ -158,6 +158,8 @@
                     <div class="hd-field hd-loc">
                         <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
                         <input type="text" class="hd-input" id="pickupLoc" name="PickupLocation" placeholder="Where from?" autocomplete="off" />
+                        <input type="hidden" id="pickupLat" name="PickupLat" />
+                        <input type="hidden" id="pickupLng" name="PickupLng" />
                     </div>
 
                     <div class="hd-swap">
@@ -167,6 +169,8 @@
                     <div class="hd-field hd-loc">
                         <span class="pin"><i class="bi bi-geo-alt-fill"></i></span>
                         <input type="text" class="hd-input" id="dropLoc" name="DropLocation" placeholder="Where to?" autocomplete="off" />
+                        <input type="hidden" id="dropLat" name="DropLat" />
+                        <input type="hidden" id="dropLng" name="DropLng" />
                     </div>
 
                     <div class="hd-field">
@@ -259,11 +263,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Swap pickup / drop
+        // Swap pickup / drop (text + coordinates)
         $("#swapBtn").on("click", function () {
-            var a = $("#pickupLoc").val();
-            $("#pickupLoc").val($("#dropLoc").val());
-            $("#dropLoc").val(a);
+            ["Loc", "Lat", "Lng"].forEach(function (s) {
+                var a = $("#pickup" + s).val();
+                $("#pickup" + s).val($("#drop" + s).val());
+                $("#drop" + s).val(a);
+            });
         });
 
         // Step 1 -> Step 2 (require both locations)
@@ -274,14 +280,6 @@
         });
 
         $("#backStep1").on("click", function () { show(1); });
-
-        // Optional geolocation prefill, never blocks
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (pos) {
-                var p = $("#pickupLoc");
-                if (!p.val()) { p.val(pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5)); }
-            }, function () { /* denied: manual entry still works */ });
-        }
 
         $("#driverForm").submit(function (e) {
             e.preventDefault();
@@ -313,4 +311,57 @@
         });
     })();
 </script>
+
+<script>
+    // Google Places Autocomplete for pickup / drop (only runs when an API key is configured)
+    window.initHdMaps = function () {
+        if (!(window.google && google.maps && google.maps.places)) return;
+
+        function bind(inputId, latId, lngId) {
+            var el = document.getElementById(inputId);
+            if (!el) return;
+            var ac = new google.maps.places.Autocomplete(el, {
+                componentRestrictions: { country: "in" },
+                fields: ["formatted_address", "geometry", "name"]
+            });
+            ac.addListener("place_changed", function () {
+                var p = ac.getPlace();
+                if (p.formatted_address) { el.value = p.formatted_address; }
+                if (p.geometry && p.geometry.location) {
+                    document.getElementById(latId).value = p.geometry.location.lat();
+                    document.getElementById(lngId).value = p.geometry.location.lng();
+                }
+            });
+            // clear stale coordinates if the address is edited manually
+            el.addEventListener("input", function () {
+                document.getElementById(latId).value = "";
+                document.getElementById(lngId).value = "";
+            });
+        }
+
+        bind("pickupLoc", "pickupLat", "pickupLng");
+        bind("dropLoc", "dropLat", "dropLng");
+
+        // Prefill pickup with the user's current location (reverse geocoded). Never blocks.
+        if (navigator.geolocation) {
+            var geocoder = new google.maps.Geocoder();
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                var p = document.getElementById("pickupLoc");
+                if (p.value) return;
+                var loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                geocoder.geocode({ location: loc }, function (res, status) {
+                    if (status === "OK" && res[0]) {
+                        p.value = res[0].formatted_address;
+                        document.getElementById("pickupLat").value = loc.lat;
+                        document.getElementById("pickupLng").value = loc.lng;
+                    }
+                });
+            }, function () { /* denied: manual entry still works */ });
+        }
+    };
+</script>
+@if (!string.IsNullOrWhiteSpace(SiteKey.GoogleMapsApiKey))
+{
+    <script src="https://maps.googleapis.com/maps/api/js?key=@SiteKey.GoogleMapsApiKey&libraries=places&callback=initHdMaps" async defer></script>
+}
 }

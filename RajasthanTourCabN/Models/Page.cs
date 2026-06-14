@@ -83,6 +83,10 @@ namespace RajasthanTourCabN.Models
         public string PickupTime { get; set; }
         public string PickupLocation { get; set; }
         public string DropLocation { get; set; }
+        public string PickupLat { get; set; }
+        public string PickupLng { get; set; }
+        public string DropLat { get; set; }
+        public string DropLng { get; set; }
         public string DropoffDate { get; set; }
         public string DropoffTime { get; set; }
         public string CarBrand { get; set; }

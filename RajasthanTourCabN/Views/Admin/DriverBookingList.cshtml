@@ -46,8 +46,20 @@
                             <td>@item.MobileNo</td>
                             <td>@item.EmailId</td>
                             <td>@item.TripType</td>
-                            <td>@item.PickupLocation</td>
-                            <td>@item.DropLocation</td>
+                            <td>
+                                @item.PickupLocation
+                                @if (!string.IsNullOrWhiteSpace(item.PickupLat) && !string.IsNullOrWhiteSpace(item.PickupLng))
+                                {
+                                    <a href="https://www.google.com/maps/search/?api=1&query=@(item.PickupLat),@(item.PickupLng)" target="_blank" title="View on map"><i class="bi bi-geo-alt-fill"></i></a>
+                                }
+                            </td>
+                            <td>
+                                @item.DropLocation
+                                @if (!string.IsNullOrWhiteSpace(item.DropLat) && !string.IsNullOrWhiteSpace(item.DropLng))
+                                {
+                                    <a href="https://www.google.com/maps/search/?api=1&query=@(item.DropLat),@(item.DropLng)" target="_blank" title="View on map"><i class="bi bi-geo-alt-fill"></i></a>
+                                }
+                            </td>
                             <td>@item.PickupDate @item.PickupTime</td>
                             <td>@item.DropoffDate @item.DropoffTime</td>
                             <td>@item.CarBrand @item.CarModel</td>
